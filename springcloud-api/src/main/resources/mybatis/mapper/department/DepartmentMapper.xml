@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zyl.springcloud.dao.department.DepartmentMapper">
+    <resultMap id="BaseResultMap"
+               type="com.zyl.springcloud.entity.department.Department">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="department_name" property="departmentName"
+                jdbcType="VARCHAR" />
+        <result column="source" property="source" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List">
+		id, department_name, source
+	</sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+            parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List" />
+        from department
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from department
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+    <insert id="insert" parameterType="com.zyl.springcloud.entity.department.Department">
+		insert into department (id, department_name, source
+		)
+		values (#{id,jdbcType=BIGINT}, #{departmentName,jdbcType=VARCHAR},
+		#{source,jdbcType=VARCHAR}
+		)
+	</insert>
+    <insert id="insertSelective" parameterType="com.zyl.springcloud.entity.department.Department">
+        insert into department
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="departmentName != null">
+                department_name,
+            </if>
+            <if test="source != null">
+                source,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="departmentName != null">
+                #{departmentName,jdbcType=VARCHAR},
+            </if>
+            <if test="source != null">
+                #{source,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.zyl.springcloud.entity.department.Department">
+        update department
+        <set>
+            <if test="departmentName != null">
+                department_name = #{departmentName,jdbcType=VARCHAR},
+            </if>
+            <if test="source != null">
+                source = #{source,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.zyl.springcloud.entity.department.Department">
+		update department
+		set department_name = #{departmentName,jdbcType=VARCHAR},
+		source = #{source,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+    <select id="queryPage" resultType="com.zyl.springcloud.entity.department.Department">
+        select * from department
+    </select>
+</mapper>
